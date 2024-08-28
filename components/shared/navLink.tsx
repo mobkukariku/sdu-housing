@@ -14,7 +14,7 @@ export const NavLink: FC<Props> = ({ href, children }) => {
 
     return (
         <Link href={href}>
-            <span className={`${isActive ? ' underline left decoration-dark-buttons-btnBlue decoration-2 underline-offset-[6px]' : ''}`}>
+            <span className={`${isActive ? ' underline left decoration-dark-buttons-btnBlue decoration-[3px] underline-offset-[6px]' : ''}`}>
                 {children}
             </span>
         </Link>

@@ -24,7 +24,7 @@ export const Header:FC<Props> = ({ className }) => {
                         </Link>
                         
                         {/* Navbar */}
-                        <div className="flex gap-4 text-light-buttons-btnLightText  dark:text-white text-[18px] font-semibold">
+                        <div className="flex gap-4 text-light-buttons-btnLightText dark:text-white text-[18px] font-semibold">
                             <NavLink href="/">Home</NavLink>
                             <NavLink href="/search">Search</NavLink>
                             <NavLink href="/add">Add</NavLink>

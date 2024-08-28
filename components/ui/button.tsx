@@ -10,10 +10,10 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-light-buttons-btnLight text-light-buttons-btnLightText hover:text-light-buttons-btnLightText/90 hover:bg-light-buttons-btnLight/60 dark:bg-dark-buttons-btnGray  dark:text-dark-buttons-btnGrayText  dark:hover:bg-dark-buttons-btnGray/80 ",
-        destructive:
-          "bg-red-500 text-zinc-50 hover:bg-red-500/90 dark:bg-red-900 dark:text-zinc-50 dark:hover:bg-red-900/90",
+        component:
+          "lex h-8 w-full rounded-lg border-none  bg-light-inputs-inputLight px-3 py-4 text-sm   file:bg-transparent ",
         outline:
-          "border border-dark-buttons-btnBlue text-dark-buttons-btnBlue bg-transparent hover:bg-dark-buttons-btnBlue/10 dark:border-dark-buttons-btnBlue dark:text-dark-buttons-btnBlue dark:hover:bg-dark-buttons-btnBlue/10",
+          "border-2 border-dark-buttons-btnBlue text-dark-buttons-btnBlue bg-transparent hover:bg-dark-buttons-btnBlue/10 dark:border-dark-buttons-btnBlue dark:text-dark-buttons-btnBlue dark:hover:bg-dark-buttons-btnBlue/10",
         secondary:
           "bg-zinc-100 text-zinc-900 hover:bg-zinc-100/80 dark:bg-zinc-800 dark:text-zinc-50 dark:hover:bg-zinc-800/80",
         ghost: "hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-50",
