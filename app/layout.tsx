@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Mulish } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/shared/header";
+import { QueryProvider } from "@/provider/query-provider";
 
 const mulish = Mulish({ subsets: ["latin"] });
 
@@ -17,8 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en" >
       <body className={mulish.className + "dark:bg-dark-bg bg-light-bg"}>
-        <Header />
-        <main>{children}</main>
+          <QueryProvider>
+            <Header />
+            <main>{children}</main>
+          </QueryProvider>
       </body>
     </html>
   );

@@ -20,9 +20,9 @@ export const FilterCheckBoxGroup: React.FC<Props> = ({
             <Label className="font-bold text-lg">{title}</Label>
             {items.map((item, index) => (
                 <FilterCheckBox
-                    key={item.value + index}
-                    text={item.text}
-                    value={item.value}
+                    key={item.id + index}
+                    id={String(item.id)}
+                    name={item.name}
                     icon={item.icon}
                     onCheckedChange={item.onCheckedChange}
                 />

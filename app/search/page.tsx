@@ -1,52 +1,98 @@
+"use client"
 import { Container } from "@/components/shared/container";
+import { ProductsNotFoundError } from "@/components/shared/error";
 import { Filter } from "@/components/shared/filter";
 import { ProductCard } from "@/components/shared/product-card";
 import { SearchBox } from "@/components/shared/search";
+import { SkeletonCard } from "@/components/shared/skeleton";
+import { useFetchProducts } from "@/hooks/useFetchProducts";
+import { Product } from "@prisma/client";
+import { useState } from "react";
+import { useDebounce } from "react-use";
 
 export default function SearchPage (){
+    const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+    const [serchQuery, setSearchQuery] = useState("");
+    const {data, isLoading, error} = useFetchProducts(serchQuery, selectedFilters);
+    
+
+    useDebounce(() => {
+        setSearchQuery(serchQuery);
+    }, 500, [serchQuery]);
+
+    const handleFilterChange = (filterName: string) => {
+        setSelectedFilters(prevFilters =>
+            prevFilters.includes(filterName)
+                ? prevFilters.filter(f => f !== filterName)
+                : [...prevFilters, filterName]
+        );
+    };
+
+    if (isLoading) {
+        return (
+            <Container className="mt-10">
+                <div className="flex justify-center gap-3">
+                    <Filter className="w-[400px] h-full" onFilterChange={handleFilterChange} selectedFilters={selectedFilters} onFilterChange={handleFilterChange} />
+                    <div className="w-full">
+                        <SearchBox />
+                        <div className="flex flex-col mt-3 gap-3">
+                            {Array.from({ length: 5 }).map((_, index) => (
+                                <SkeletonCard key={index} />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </Container>
+        );
+    }
+
+    if (error) {
+        return (
+            <Container className="mt-10">
+                <div className="flex justify-center gap-3">
+                    <Filter className="w-[400px] h-full" onFilterChange={handleFilterChange} selectedFilters={selectedFilters} />
+                    <div className="w-full">
+                        <SearchBox />
+                        <div className="flex flex-col mt-3 gap-3">
+                            <ProductsNotFoundError />
+                        </div>
+                    </div>
+                </div>
+            </Container>
+        );
+    }
+
+    if (!data || data.length === 0) {
+        return (
+            <Container className="mt-10">
+                <div className="flex justify-center gap-3">
+                    <Filter className="w-[400px] h-full" onFilterChange={handleFilterChange} selectedFilters={selectedFilters} />
+                    <div className="w-full">
+                        <SearchBox onChange={(e) => setSearchQuery(e.target.value)}/>
+                        <div className="flex flex-col mt-3 gap-3">
+                            <ProductsNotFoundError />
+                        </div>
+                    </div>
+                </div>
+            </Container>
+        );
+    }
+
     return(
         <Container className="mt-10">
-            <div className="flex justify-center gap-5">
+            <div className="flex justify-center gap-3">
                 {/* Filter */}
-                <Filter  className="w-[400px] h-full" />
+                <Filter  className="w-[400px] h-full" onFilterChange={handleFilterChange} selectedFilters={selectedFilters} />
 
                 <div className="w-full">
                     {/* Search */}
-                    <SearchBox />
+                    <SearchBox onChange={(e) => setSearchQuery(e.target.value)} />
                     {/* Results */}
-                    <ProductCard 
-                        id={1}
-                        title="Квартира в Алтынке" 
-                        desc="Сдаю комнату в Каскелене на 3-4 парней. Идеально подойдет для студентов СДУ. До университета можно дойти пешком всего за 5-7 минут. В комнате есть все необходимое для комфортного проживания: холодильник, стиральная машина, утюг, чайник и плитка для готовки..." 
-                        price={50000} 
-                        image="https://alakt-photos-kr.kcdn.kz/webp/13/1341a7ad-b02c-48fa-9816-679ea5ff9258/10-750x470.webp" 
-                        className="mt-3"/>
-                        <ProductCard 
-                        id={1}
-                        title="Квартира в Алтынке" 
-                        desc="Сдаю комнату в Каскелене на 3-4 парней. Идеально подойдет для студентов СДУ. До университета можно дойти пешком всего за 5-7 минут. В комнате есть все необходимое для комфортного проживания: холодильник, стиральная машина, утюг, чайник и плитка для готовки..." 
-                        price={50000} 
-                        image="https://alakt-photos-kr.kcdn.kz/webp/13/1341a7ad-b02c-48fa-9816-679ea5ff9258/10-750x470.webp" 
-                        className="mt-3"/><ProductCard 
-                        id={1}
-                        title="Квартира в Алтынке" 
-                        desc="Сдаю комнату в Каскелене на 3-4 парней. Идеально подойдет для студентов СДУ. До университета можно дойти пешком всего за 5-7 минут. В комнате есть все необходимое для комфортного проживания: холодильник, стиральная машина, утюг, чайник и плитка для готовки..." 
-                        price={50000} 
-                        image="https://alakt-photos-kr.kcdn.kz/webp/13/1341a7ad-b02c-48fa-9816-679ea5ff9258/10-750x470.webp" 
-                        className="mt-3"/><ProductCard 
-                        id={1}
-                        title="Квартира в Алтынке" 
-                        desc="Сдаю комнату в Каскелене на 3-4 парней. Идеально подойдет для студентов СДУ. До университета можно дойти пешком всего за 5-7 минут. В комнате есть все необходимое для комфортного проживания: холодильник, стиральная машина, утюг, чайник и плитка для готовки..." 
-                        price={50000} 
-                        image="https://alakt-photos-kr.kcdn.kz/webp/13/1341a7ad-b02c-48fa-9816-679ea5ff9258/10-750x470.webp" 
-                        className="mt-3"/>
-                        <ProductCard 
-                        id={1}
-                        title="Квартира в Алтынке" 
-                        desc="Сдаю комнату в Каскелене на 3-4 парней. Идеально подойдет для студентов СДУ. До университета можно дойти пешком всего за 5-7 минут. В комнате есть все необходимое для комфортного проживания: холодильник, стиральная машина, утюг, чайник и плитка для готовки..." 
-                        price={50000} 
-                        image="https://alakt-photos-kr.kcdn.kz/webp/13/1341a7ad-b02c-48fa-9816-679ea5ff9258/10-750x470.webp" 
-                        className="mt-3"/>
+                    <div className="flex flex-col mt-3 gap-3">
+                        {data.map((product:Product) => (
+                            <ProductCard title={product.name} desc={product.description} image={product.imageUrl} price={product.price} key={product.id} id={product.id} />
+                        ))}
+                    </div>
                 </div>
             </div>
         </Container>

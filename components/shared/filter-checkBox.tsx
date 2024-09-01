@@ -4,9 +4,9 @@ import { Label } from "../ui/label";
 
 export interface FilterCheckBoxProps{
     className?: string;
-    text: string;
+    name: string;
     checked?: boolean;
-    value:string;
+    id:string;
     icon?: React.ReactNode | null;
     endAdornment?: React.ReactNode;
     onCheckedChange?: (checked:boolean) => void;
@@ -14,9 +14,9 @@ export interface FilterCheckBoxProps{
 
 export const FilterCheckBox: React.FC<FilterCheckBoxProps> = ({
         className,
-        text, 
+        name, 
         checked, 
-        value,
+        id,
         icon,
         endAdornment, 
         onCheckedChange
@@ -27,13 +27,13 @@ export const FilterCheckBox: React.FC<FilterCheckBoxProps> = ({
                 <Checkbox
                     checked={checked}
                     onCheckedChange={onCheckedChange}
-                    value={value}
-                    id={`checkbox-${String(value)}`}
+                    value={id}
+                    id={`checkbox-${String(id)}`}
                     className="rounded-[3px] w-5 h-5"
                 />
                 <div className="flex gap-1 items-center bottom">
                     <span>{icon}</span>
-                    <Label className="text-base">{text}</Label>
+                    <Label className="text-base">{name}</Label>
                 </div>
             </div>
     )

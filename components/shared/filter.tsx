@@ -6,12 +6,61 @@ import { FilterCheckBox } from "./filter-checkBox";
 import { Image } from 'lucide-react';
 import { Label } from "../ui/label";
 import { FilterCheckBoxGroup } from "./filter-checkBox-group";
+import { useFetchFilters } from "@/hooks/useFetchFilters";
+import { Skeleton } from "../ui/skeleton";
 
 interface Props{
     className?: string;
 }
 
 export const Filter: FC<Props> = ({className}) => {
+
+    const{data, isLoading, error} = useFetchFilters();
+
+
+    if(isLoading){
+        return(
+            <div className={cn("bg-light-components-componentLight  text-light-components-title rounded-xl flex flex-col gap-8 py-8 px-7", className)}>
+            <div>
+                <Skeleton className="mb-2 w-20 h-6" />
+                <div className="flex gap-1 items-center">
+                   <Skeleton className="w-24 h-8" />
+                   <Minus  className="w-[58px] h-[45px] text-light-inputs-inputLight"/>
+                   <Skeleton className="w-24 h-8" />
+                </div>
+            </div>
+            <div className="flex gap-2 flex-col">
+                <Skeleton className="w-10 h-5 ml-5" />
+                <Skeleton className="w-25 h-5" />
+                <Skeleton className="w-25 h-5" />
+            </div>
+            <div className="flex gap-2 flex-col">
+                <Skeleton className="w-25 h-5" />
+                <Skeleton className="w-25 h-5" />
+                <Skeleton className="w-25 h-5" />
+                <Skeleton className="w-25 h-5" />
+            </div>
+            <div className="flex gap-2 flex-col">
+                <Skeleton className="w-25 h-5" />
+                <Skeleton className="w-25 h-5" />
+                <Skeleton className="w-25 h-5" />
+            </div>
+            <div className="flex gap-2 flex-col">
+                <Skeleton className="w-25 h-5" />
+                <Skeleton className="w-25 h-5" />
+                <Skeleton className="w-25 h-5" />
+            </div>
+        
+        </div>
+        )
+    }
+
+    if(error){
+        return(
+            <div>Error</div>
+        )
+    }
+
     
     return(
         <div className={cn("bg-light-components-componentLight  text-light-components-title rounded-xl flex flex-col gap-8 py-8 px-7", className)}>
@@ -27,33 +76,20 @@ export const Filter: FC<Props> = ({className}) => {
 
             {/** CheckBox **/}
             <div className="flex flex-col">
-                <FilterCheckBox text="Photo is avaiable"  value="1" icon={<Image width={16} height={16} />} />
-                <FilterCheckBox text="Next to SDU"  value="2" icon={<GraduationCap width={16} height={16} />} />
+                {data?.slice(0, 2).map((item, index) => (
+                    <FilterCheckBox
+                        key={item.id + index}
+                        id={String(item.id)}
+                        name={item.name}
+                        onCheckedChange={item?.onCheckedChange}
+                    />
+                ))}
             </div>
             {/** CheckBoxGroups **/}
             <div className="flex flex-col gap-5">
-                <FilterCheckBoxGroup title="Numbers of room" items={
-                    [ 
-                        { text: "1 Room", value: "1", },
-                        { text: "2 Rooms", value: "2", },
-                        { text: "3 Rooms", value: "3", },
-                        { text: "4+ Rooms", value: "4", },
-                    ]
-                }/>
-                <FilterCheckBoxGroup title="Who to live with" items={
-                    [ 
-                        { text: "Men", value: "1", },
-                        { text: "Women", value: "2", },
-                        { text: "Doesn't matter", value: "3",},
-                    ]
-                }/>
-                <FilterCheckBoxGroup title="The apartment is furnished" items={
-                    [ 
-                        { text: "Fully", value: "1", },
-                        { text: "Paritially", value: "2", },
-                        { text: "Without furniture", value: "3",},
-                    ]
-                }/>
+            <FilterCheckBoxGroup title="Numbers of room" items={data?.slice(2, 6) ?? []}/>
+            <FilterCheckBoxGroup title="Who to live with" items={data?.slice(6, 9) ?? []}/>
+            <FilterCheckBoxGroup title="The apartment is furnished" items={data?.slice(9, 12) ?? []}/>
                 
             </div>
         </div>
